@@ -1,0 +1,58 @@
+body {
+    background-image: url("../burger_image.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background {
+    background-color: salmon;
+text-align: center;
+    height: 120px;
+    width: 400px;
+    opacity: .9;
+    margin: 0 auto;
+
+}
+
+.title {
+    text-align: center;
+}
+
+
+.left-div {
+    background-color: bisque;
+    height: 200px;
+    width: 300px;
+    align-content: left;
+    text-align: center;
+    margin: 0 auto;
+    opacity: .9;
+}
+
+.right-div {
+    background-color: rgb(196, 243, 255);
+    height: 200px;
+    width: 300px;
+    align-content: right;
+    align-self: right;
+    text-align: center;
+    margin: 0 auto;
+    opacity: .9;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+}
+
+h2,h3{
+    font-family: 'Marck Script', cursive;
+    text-decoration: underline;
+}
+
+h1{
+    font-family: 'Marck Script', cursive;
+    font-size: 48px;
+}
