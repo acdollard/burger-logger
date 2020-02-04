@@ -22,7 +22,7 @@ text-align: center;
 
 .left-div {
     background-color: bisque;
-    height: 200px;
+    height: auto;
     width: 300px;
     align-content: left;
     text-align: center;
@@ -32,7 +32,7 @@ text-align: center;
 
 .right-div {
     background-color: rgb(196, 243, 255);
-    height: 200px;
+    height: auto;
     width: 300px;
     align-content: right;
     align-self: right;
