@@ -1,5 +1,5 @@
 body {
-    background-image: url("../burger_image.jpg");
+    background-image: url("./assets/burger_image.jpg");
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -19,7 +19,6 @@ text-align: center;
 .title {
     text-align: center;
 }
-
 
 .left-div {
     background-color: bisque;
