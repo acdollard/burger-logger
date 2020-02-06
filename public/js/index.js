@@ -1,4 +1,4 @@
-$(function() {
+
 
 //post function for submitting a buger from the front-end
 $("#add-button").on("click", async function(event){
@@ -8,36 +8,29 @@ $("#add-button").on("click", async function(event){
     let new_burger = {
         name: $("#burger_form").val().trim()
     }
-
     await $.post("/api/burger", new_burger)
     .then(function(data){
         console.log(data)
     });
-
     await $("#burger_form").val("");
 
     getBurgers();
 }
 )
 
-
-function getBurgers() {$.get("/api/burger", function(burger){
+//this function sends a get request for all burgers and sorts them according to isMunched T or F
+ function getBurgers() {
+    $.get("/api/burger",  function(burger){
     //clear the current list 
     $("#to_munch_list").empty();
-    console.log(burger)
-    //loop through responses and append a li for each burger
-    for(let i=0; i<burger.length; i++){
-        // let burger_item = $("<li>");
-        // let burger_name = $("<p>");
-        // burger_name.text(burger[i].name);
-        // let new_button = $(`<button class="devoured">Devour!</button>`);
-        // new_button.attr(id, burger[i].id);
-        // burger_item.append(burger_name);
-        // burger_item.append(new_button);
-        // $("#to_munch_list").append(burger_item);
-
+    $("#munched_list").empty();
+    console.log(burger);
+    //loop through responses and append a div for each burger
+     for(let i=0; i<burger.length; i++){
+        //if burger is not munched, create and append to left column
+        if(!burger[i].isMunched) {
         let new_div = $("<div>");
-        new_div.addClass("well");
+ 
         new_div.attr("id", "burger-well-" + burger[i].id);
         let munch_button = document.createElement("button")
         munch_button.textContent = "Munch";
@@ -45,18 +38,33 @@ function getBurgers() {$.get("/api/burger", function(burger){
         munch_button.setAttribute("id", burger[i].id);
 
         $("#to_munch_list").append(new_div);
-        $("#burger-well-" + i).append("<p>" + burger[i].name + "<p>");
-        $("#burger-well-" + i).append(munch_button)
+        $("#burger-well-" + burger[i].id).append("<p>" + burger[i].name + "<p>");
+        $("#burger-well-" + burger[i].id).append(munch_button)
+        }
+        //if burger is munched, create and append to right column
+         else {
+            let new_div = $("<div>");
+     
+        new_div.attr("id", "eaten-well-" + burger[i].id);
+        let poop_button = document.createElement("button")
+        poop_button.textContent = "Poop";
+        poop_button.setAttribute("class","poop_button")
+        poop_button.setAttribute("id", burger[i].id);
 
+        $("#munched_list").append(new_div);
+        $("#eaten-well-" + burger[i].id).append("<p>" + burger[i].name + "<p>");
+        $("#eaten-well-" + burger[i].id).append(poop_button)
+        }
     }
+    //call click-listener functions for new buttons
     devourBurger();
+    deleteBurger();
 })
 }
 
-
-
+//on click, will send ajax put to change isMunched to true, and re-render buger list
 async function devourBurger() {
-$(".munch_button").on("click", function(event){
+await $(".munch_button").on("click", function(event){
     event.preventDefault();
     console.log("HELLOOOOOOO")
     console.log(this.id);
@@ -65,19 +73,38 @@ $(".munch_button").on("click", function(event){
         isMunched: true,
         id: id
     };
-
-
-    $.ajax("api/burger" + id, {
+    $.ajax("api/burger/" + id, {
         type: "PUT",
         data: newMunchedState
-    }).then(function(){
+    }).then(function(err, res){
+        if(err) console.log("Error");
         console.log("Munched burger, and it was delish.");
         getBurgers();
+        
     })
-})
+});
+}
+
+//on click, will send ajax delete request
+ async function deleteBurger() {
+    await  $(".poop_button").on("click", async function(event) {
+        event.preventDefault();
+        console.log("GOODBYYYEEE burger number: " + this.id);
+
+        let id = this.id;
+
+        $.ajax("api/burger/" + id, {
+            type: "DELETE"
+        }).then(function(err, res) {
+            //this part is not getting hit for some reason
+            if(err) console.log("Error");
+            console.log("Deleted Burger.");
+            res.getBurgers();
+            
+        })
+    });
+
 }
 
 
 getBurgers();
-
-});
