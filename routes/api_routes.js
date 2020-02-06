@@ -1,11 +1,11 @@
-let Burger = require("../models/burger");
+let db = require("../models");
 
 module.exports = function(app) {
     //put function
     app.post("/api/burger", function(req, res){
         console.log(req.body)
         let new_burger = req.body
-        Burger.create({
+        db.Burger.create({
             name: new_burger.name,
             isMunched: false
         });
@@ -15,7 +15,7 @@ module.exports = function(app) {
 
     //get function
     app.get("/api/burger", function(req, res){
-        Burger.findAll({}).then(function(results){  
+        db.Burger.findAll({}).then(function(results){  
             return res.json(results);
         })
     });
@@ -24,7 +24,7 @@ module.exports = function(app) {
     //update function
     app.put("/api/burger/:id", function(req, res){
         console.log(req.body);
-        Burger.update({
+        db.Burger.update({
             isMunched: true
         }, {
             where: {
@@ -38,7 +38,7 @@ module.exports = function(app) {
 
     //delete function
     app.delete("/api/burger/:id", function(req, res) {
-        Burger.destroy({
+        db.Burger.destroy({
             where: {
                 id: req.params.id
             }

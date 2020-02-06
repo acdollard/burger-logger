@@ -47,7 +47,7 @@ $("#add-button").on("click", async function(event){
      
         new_div.attr("id", "eaten-well-" + burger[i].id);
         let poop_button = document.createElement("button")
-        poop_button.textContent = "Poop";
+        poop_button.textContent = "Poop the burger";
         poop_button.setAttribute("class","poop_button")
         poop_button.setAttribute("id", burger[i].id);
 
@@ -99,7 +99,7 @@ await $(".munch_button").on("click", function(event){
             //this part is not getting hit for some reason
             if(err) console.log("Error");
             console.log("Deleted Burger.");
-            res.getBurgers();
+            getBurgers();
             
         })
     });
