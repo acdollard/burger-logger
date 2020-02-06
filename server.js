@@ -24,6 +24,12 @@ app.use(express.static("app/public"));
 require("./routes/api_routes.js")(app);
 require("./routes/html_routes.js")(app);
 
+// Set Handlebars.
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
 // Starts the server to begin listening
 // =============================================================
 db.sequelize.sync().then(function() {
