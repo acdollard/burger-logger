@@ -1,24 +1,18 @@
 let path = require("path");
 let db = require("../models");
 
+
+
 module.exports = function(app){
     app.get("/", function(req, res) {
-        res.sendFile(path.join(__dirname, "../public/index.html"))
+        db.Burger.findAll({}).then(function(data){
+            console.log(data)
+            let burgersObject = {burgers: data}
+            // console.log(burgerObject);
+            res.render("index", burgersObject)
+        })
     });
 
-
-    //when the js file is called FROM the index.html file, send the path from THIS routes file
-    app.get("/js/index.js", function(req, res) {
-        res.sendFile(path.join(__dirname, "../public/js/index.js"))
-    });
-    
-    app.get("/css/style.css", function(req, res) {
-        res.sendFile(path.join(__dirname, "../public/css/style.css"))
-    });
-
-    app.get("/css/assets/burger_image.jpg", function(req, res) {
-        res.sendFile(path.join(__dirname, "../public/css/assets/burger_image.jpg"))
-    });
 
 
 }

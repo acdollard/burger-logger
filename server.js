@@ -17,12 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Static directory
-app.use(express.static("app/public"));
+app.use(express.static("/public"));
 
 // Routes
 // =============================================================
-require("./routes/api_routes.js")(app);
-require("./routes/html_routes.js")(app);
 
 // Set Handlebars.
 var exphbs = require("express-handlebars");
@@ -30,9 +28,11 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+require("./routes/api_routes.js")(app);
+require("./routes/html_routes.js")(app);
 // Starts the server to begin listening
 // =============================================================
-db.sequelize.sync().then(function() {
+db.sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
